@@ -1,0 +1,30 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: drawing_dev
+  pool: 5
+  username: root
+  password:
+  socket: <%= ["/var/lib/mysql/mysql.sock", "/opt/local/var/run/mysql5/mysqld.sock", "/tmp/mysql.sock"].detect {|socket| File.exist?(socket)} %>
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: drawing_test
+  pool: 5
+  username: root
+  password:
+  socket: <%= ["/var/lib/mysql/mysql.sock", "/opt/local/var/run/mysql5/mysqld.sock", "/tmp/mysql.sock"].detect {|socket| File.exist?(socket)} %>
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: drawing_site
+  pool: 5
+  username: root
+  password:
+  socket: <%= ["/var/lib/mysql/mysql.sock", "/opt/local/var/run/mysql5/mysqld.sock", "/tmp/mysql.sock"].detect {|socket| File.exist?(socket)} %>
+
