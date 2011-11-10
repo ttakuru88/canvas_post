@@ -1,6 +1,5 @@
 $(document).ready ->
   canvas = $('#draw-area')
-  pictures = $('#pictures .thumbnail')
   ctx = canvas[0].getContext('2d')
   ctx.lineWidth = 1
 
@@ -39,6 +38,8 @@ $(document).ready ->
     nowPos = getPointPosition(e)
     ctx.putPoint(nowPos.x, nowPos.y)
     mousedown = false
+  canvas.mouseout (e)->
+    mousedown = false
 
   getPointPosition = (e)->
     {x: e.pageX-canvas.offset().left-2, y: e.pageY-canvas.offset().top-2}
@@ -62,13 +63,25 @@ $(document).ready ->
     ctx.setColor()
     $("#show_pen_blue").text($(@).val())
 
-  $("#clear_button").click ->
+  clear_button = $("#clear_button")
+  clear_button.click ->
     ctx.clearRect(0, 0, canvas.width(), canvas.height())
 
-  $("#save_button").click ->
+  save_button = $("#save_button")
+  save_button.click ->
     url = canvas[0].toDataURL()
     $.post '/pictures', {data: url}, (data)->
       reloadPictures()
+
+  clear_button.mouseenter ->
+    $(@).addClass('button_over')
+  save_button.mouseenter ->
+    $(@).addClass('button_over')
+
+  clear_button.mouseout ->
+    $(@).removeClass('button_over')
+  save_button.mouseout ->
+    $(@).removeClass('button_over')
 
   reloadPictures = ->
     $.get '/pictures', (result)->
@@ -78,5 +91,16 @@ $(document).ready ->
       ids.forEach (id, i)->
         if parseInt(id) > 0
           pictures.append("<img src=\"/images/#{id}.png\" class=\"thumbnail\" />")
+      thumb_pics = $("#pictures .thumbnail")
+      thumb_pics.click ->
+        image = new Image()
+        image.src = $(@).attr('src')
+        image.onload = ->
+          ctx.clearRect(0, 0, canvas.width(), canvas.height())
+          ctx.drawImage(image, 0, 0)
+      thumb_pics.mouseenter ->
+        $(@).addClass('thumbnail_over')
+      thumb_pics.mouseout ->
+        $(@).removeClass('thumbnail_over')
 
   reloadPictures()

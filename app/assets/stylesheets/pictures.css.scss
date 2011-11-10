@@ -12,6 +12,7 @@ canvas#draw-area{
   height: 30px;
   background-color: rgb(0, 0, 0);
   float: left;
+  border: solid 1px black;
 }
 
 #clear_button,
@@ -20,6 +21,9 @@ canvas#draw-area{
   padding: 5px 10px;
   border: solid 1px black;
 }
+.button_over{
+  background-color: #eeeeee;
+}
 
 .thumbnail{
   width: 100px;
@@ -27,6 +31,10 @@ canvas#draw-area{
   border: solid 1px #eeeeee;
   margin: 20px;
   cursor: pointer;
+}
+.thumbnail_over{
+  border: solid 3px #dddddd !important;
+  margin: 18px !important;
 }
 
 .clearfix{
