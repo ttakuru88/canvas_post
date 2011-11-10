@@ -1,0 +1,27 @@
+<div id="canvas">
+  <canvas id="draw-area" width="300" height="300"></canvas>
+</div>
+<div id="controll-panel">
+  <p>
+    <%= range_field_tag :pen_width_slider, 1, :min => 1, :max => 20 %>
+    <span id="show_pen_width">1</span>px
+  </p>
+
+  <p>
+    <%= range_field_tag :pen_color_red_slider, 0, :min => 0, :max => 255 %>
+    <span class="red">R</span> <span id="show_pen_red">0</span><br />
+    <%= range_field_tag :pen_color_green_slider, 0, :min => 0, :max => 255 %>
+    <span class="green">G</span> <span id="show_pen_green">0</span><br />
+    <%= range_field_tag :pen_color_blue_slider, 0, :min => 0, :max => 255 %>
+    <span class="blue">B</span> <span id="show_pen_blue">0</span><br />
+    <div id="preview_color"></div><br /><br />
+  </p>
+
+  <p>
+    <span id="save_button">保存</span>
+  </p>
+
+  <p>
+    <span id="clear_button">削除</span>
+  <p>
+</div>
