@@ -19,10 +19,13 @@ $(document).ready ->
     @.strokeStyle = color
     @.fillStyle = color
     preview_color.css('background-color', color)
+  ctx.savePrevData = ->
+    @.prevImageData = @.getImageData(0, 0, canvas.width(), canvas.height())
 
   mousedown = false
 
   canvas.mousedown (e)->
+    ctx.savePrevData()
     ctx.prevPos = getPointPosition(e)
     mousedown = true
     ctx.putPoint(ctx.prevPos.x, ctx.prevPos.y)
@@ -35,8 +38,6 @@ $(document).ready ->
     ctx.prevPos = nowPos
 
   canvas.mouseup (e)->
-    nowPos = getPointPosition(e)
-    ctx.putPoint(nowPos.x, nowPos.y)
     mousedown = false
   canvas.mouseout (e)->
     mousedown = false
@@ -44,44 +45,41 @@ $(document).ready ->
   getPointPosition = (e)->
     {x: e.pageX-canvas.offset().left-2, y: e.pageY-canvas.offset().top-2}
 
-  $("#pen_width_slider").change ->
+  $("#pen-width-slider").change ->
     ctx.lineWidth = $(@).val()
-    $("#show_pen_width").text(ctx.lineWidth)
+    $("#show-pen-width").text(ctx.lineWidth)
 
-  red_slider = $("#pen_color_red_slider")
-  green_slider = $("#pen_color_green_slider")
-  blue_slider = $("#pen_color_blue_slider")
-  preview_color = $("#preview_color")
+  red_slider = $("#pen-color-red-slider")
+  green_slider = $("#pen-color-green-slider")
+  blue_slider = $("#pen-color-blue-slider")
+  preview_color = $("#preview-color")
 
   red_slider.change ->
     ctx.setColor()
-    $("#show_pen_red").text($(@).val())
-  $("#pen_color_green_slider").change ->
+    $("#show-pen-red").text($(@).val())
+  $("#pen-color-green-slider").change ->
     ctx.setColor()
-    $("#show_pen_green").text($(@).val())
-  $("#pen_color_blue_slider").change ->
+    $("#show-pen-green").text($(@).val())
+  $("#pen-color-blue-slider").change ->
     ctx.setColor()
-    $("#show_pen_blue").text($(@).val())
+    $("#show-pen-blue").text($(@).val())
 
-  clear_button = $("#clear_button")
-  clear_button.click ->
+  $("#clear-button").click ->
     ctx.clearRect(0, 0, canvas.width(), canvas.height())
 
-  save_button = $("#save_button")
-  save_button.click ->
+  $("#save-button").click ->
     url = canvas[0].toDataURL()
     $.post '/pictures', {data: url}, (data)->
       reloadPictures()
 
-  clear_button.mouseenter ->
-    $(@).addClass('button_over')
-  save_button.mouseenter ->
-    $(@).addClass('button_over')
+  $("#return-button").click ->
+    ctx.putImageData(ctx.prevImageData, 0, 0)
 
-  clear_button.mouseout ->
-    $(@).removeClass('button_over')
-  save_button.mouseout ->
-    $(@).removeClass('button_over')
+  controll_buttons = $("#controll-panel .controll-button")
+  controll_buttons.mouseenter ->
+    $(@).addClass('button-over')
+  controll_buttons.mouseout ->
+    $(@).removeClass('button-over')
 
   reloadPictures = ->
     $.get '/pictures', (result)->
@@ -99,8 +97,8 @@ $(document).ready ->
           ctx.clearRect(0, 0, canvas.width(), canvas.height())
           ctx.drawImage(image, 0, 0)
       thumb_pics.mouseenter ->
-        $(@).addClass('thumbnail_over')
+        $(@).addClass('thumbnail-over')
       thumb_pics.mouseout ->
-        $(@).removeClass('thumbnail_over')
+        $(@).removeClass('thumbnail-over')
 
   reloadPictures()
