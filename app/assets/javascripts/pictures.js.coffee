@@ -1,5 +1,6 @@
 $(document).ready ->
   canvas = $('#draw-area')
+  pictures = $('#pictures .thumbnail')
   ctx = canvas[0].getContext('2d')
   ctx.lineWidth = 1
 
@@ -39,7 +40,6 @@ $(document).ready ->
     ctx.putPoint(nowPos.x, nowPos.y)
     mousedown = false
 
-
   getPointPosition = (e)->
     {x: e.pageX-canvas.offset().left-2, y: e.pageY-canvas.offset().top-2}
 
@@ -67,5 +67,16 @@ $(document).ready ->
 
   $("#save_button").click ->
     url = canvas[0].toDataURL()
-    $.post '/pictures', url
+    $.post '/pictures', {data: url}, (data)->
+      reloadPictures()
 
+  reloadPictures = ->
+    $.get '/pictures', (result)->
+      ids = result.split(',')
+      pictures = $("#pictures")
+      pictures.empty()
+      ids.forEach (id, i)->
+        if parseInt(id) > 0
+          pictures.append("<img src=\"/images/#{id}.png\" class=\"thumbnail\" />")
+
+  reloadPictures()

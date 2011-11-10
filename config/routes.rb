@@ -1,4 +1,4 @@
 Drawing::Application.routes.draw do
-  root :to => 'pictures#index'
-  resources :pictures, :only => [:create]
+  root :to => 'pictures#new'
+  resources :pictures, :only => [:index, :create]
 end

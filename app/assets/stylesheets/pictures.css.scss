@@ -17,6 +17,16 @@ canvas#draw-area{
 #clear_button,
 #save_button{
   cursor: pointer;
+  padding: 5px 10px;
+  border: solid 1px black;
+}
+
+.thumbnail{
+  width: 100px;
+  height: 100px;
+  border: solid 1px #eeeeee;
+  margin: 20px;
+  cursor: pointer;
 }
 
 .clearfix{
