@@ -57,10 +57,10 @@ $(document).ready ->
   red_slider.change ->
     ctx.setColor()
     $("#show-pen-red").text($(@).val())
-  $("#pen-color-green-slider").change ->
+  green_slider.change ->
     ctx.setColor()
     $("#show-pen-green").text($(@).val())
-  $("#pen-color-blue-slider").change ->
+  blue_slider.change ->
     ctx.setColor()
     $("#show-pen-blue").text($(@).val())
 
